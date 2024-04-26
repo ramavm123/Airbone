@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GrapplinHook : MonoBehaviour
@@ -10,50 +8,52 @@ public class GrapplinHook : MonoBehaviour
 
     private Vector3 grapplePoint;
     private DistanceJoint2D joint;
-    
+    private GameObject player;
+
     void Start()
     {
-        joint = gameObject.GetComponent<DistanceJoint2D>();
+        joint = GetComponent<DistanceJoint2D>();
         joint.enabled = false;
         rope.enabled = false;
+        player = GameObject.FindWithTag("Player");
     }
 
-    
-    void Update()
+    public void EngageGrapple(Vector2 target)
     {
-        if (Input.GetMouseButton(0))
+        RaycastHit2D hit = Physics2D.Raycast(
+            origin: (Vector2)transform.position,
+            direction: target - (Vector2)transform.position,
+            distance: Mathf.Infinity,
+            layerMask: grappleLayer
+        );
+
+        if (hit.collider != null)
         {
-            RaycastHit2D hit = Physics2D.Raycast(
-                origin: Camera.main.ScreenToWorldPoint(Input.mousePosition),
-                direction: Vector2.zero,
-                distance: Mathf.Infinity,
-                layerMask: grappleLayer
-                );
-            if(hit.collider != null)
-            {
-                grapplePoint = hit.point;
-                grapplePoint.z = 0;
-                joint.connectedAnchor = grapplePoint;
-                joint.enabled = true;
-                joint.distance = grappleLength;
-                rope.SetPosition(0, grapplePoint);
-                rope.SetPosition(1, transform.position);
-                rope.enabled = true;
-            }            
+            grapplePoint = hit.point;
+            grapplePoint.z = 0;
+            joint.connectedAnchor = grapplePoint;
+            joint.enabled = true;
+            joint.distance = grappleLength;
+            rope.SetPosition(0, transform.position);
+            rope.SetPosition(1, grapplePoint);
+            rope.enabled = true;
         }
 
-        if(Input.GetMouseButtonUp(0)) 
+        if (Input.GetMouseButtonUp(0))
         {
-            joint.enabled = false;
-            rope.enabled = false;
-        
+            DisableGrapple();
         }
 
-        if(rope.enabled == true) 
+        if (rope.enabled)
         {
             rope.SetPosition(1, transform.position);
         }
-
-
-        }
     }
+
+
+    public void DisableGrapple()
+    {
+        joint.enabled = false;
+        rope.enabled = false;
+    }
+}
