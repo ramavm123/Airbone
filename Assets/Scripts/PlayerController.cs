@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            grapplinHook.EngageGrapple(Input.mousePosition);
+            grapplinHook.EngageGrapple(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         }
 
         if (Input.GetMouseButtonUp(0))
