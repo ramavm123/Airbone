@@ -1,7 +1,11 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GrapplinHook : MonoBehaviour
 {
+
+    public UnityEvent<bool> GrappleState;
+
     [SerializeField] private float grappleLength;
     [SerializeField] private LayerMask grappleLayer;
     [SerializeField] private LineRenderer rope;
@@ -66,7 +70,7 @@ public class GrapplinHook : MonoBehaviour
         {
             DisableGrapple();
         }
-
+        GrappleState.Invoke(true);
     }
 
 
@@ -74,5 +78,6 @@ public class GrapplinHook : MonoBehaviour
     {
         joint.enabled = false;
         rope.enabled = false;
+        GrappleState.Invoke(false);
     }
 }

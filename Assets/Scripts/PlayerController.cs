@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -6,9 +7,14 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 10f;
     public bool isInAir = false; // Variable para rastrear si el jugador está en el aire
 
+    public UnityEvent<bool> GroundState;
+    public UnityEvent Jumped;
+
     private Rigidbody2D rb;
     private bool isGrounded;
     private GrapplinHook grapplinHook; // Referencia al script del gancho
+
+    
 
     void Start()
     {
@@ -49,8 +55,10 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
+        Jumped.Invoke();
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         isInAir = true; // El jugador está en el aire después de saltar
+        GroundState.Invoke(false);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -59,6 +67,7 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
             isInAir = false; // El jugador ya no está en el aire después de tocar el suelo
+            GroundState.Invoke(true);
         }
     }
 
@@ -68,6 +77,7 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = false;
             isInAir = true; // El jugador está en el aire después de dejar el suelo
+            GroundState.Invoke(false);
         }
     }
 
@@ -85,4 +95,5 @@ public class PlayerController : MonoBehaviour
     {
         grapplinHook.EngageGrapple(target);
     }
+
 }

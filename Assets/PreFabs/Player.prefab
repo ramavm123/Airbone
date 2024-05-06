@@ -271,6 +271,7 @@ MonoBehaviour:
     m_Bits: 8
   rope: {fileID: 6886389929937170735}
   grappleStart: {fileID: 3580475862168668072}
+  grappleHead: {fileID: 0}
 --- !u!1 &2239314494225229928
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,6 +314,7 @@ GameObject:
   - component: {fileID: 5008444702427231646}
   - component: {fileID: 3132126346929040238}
   - component: {fileID: 1334614137835075775}
+  - component: {fileID: 1231021892144779906}
   m_Layer: 0
   m_Name: Character Visual
   m_TagString: Untagged
@@ -408,6 +410,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1231021892144779906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6200383172755342273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 915703ec56d1d4d46b4dedc65031916b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6544617672004363900
 GameObject:
   m_ObjectHideFlags: 0
