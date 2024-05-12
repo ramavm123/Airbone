@@ -188,6 +188,12 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 10
   isInAir: 0
+  GroundState:
+    m_PersistentCalls:
+      m_Calls: []
+  Jumped:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &5019140419869344082
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -265,6 +271,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1e11a82076779c4b8b53b014e71650f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GrappleState:
+    m_PersistentCalls:
+      m_Calls: []
   grappleLength: 2
   grappleLayer:
     serializedVersion: 2
@@ -422,6 +431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915703ec56d1d4d46b4dedc65031916b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
 --- !u!1 &6544617672004363900
 GameObject:
   m_ObjectHideFlags: 0
