@@ -25,30 +25,6 @@ public class Enemy : MonoBehaviour
         // Movimiento eliminado: el enemigo permanece estático
         rb.velocity = Vector2.zero;  // Asegurar que el enemigo no se mueva
 
- 
-        // Comprobar si hay suelo
-        // RaycastHit2D sueloHit = Physics2D.Raycast(transform.position - Vector3.right * 0.3f, Vector2.down, distanciaSuelo, groundLayer);
-        // bool haySuelo = sueloHit.collider != null;
-
-        // Comprobar si hay obstáculo
-        // RaycastHit2D obstaculoHit = Physics2D.Raycast(transform.position + Vector3.up * 0.2f, transform.right * Mathf.Sign(rb.velocity.x), distanciaObstaculo);
-        // bool hayObstaculo = obstaculoHit.collider != null && !obstaculoHit.collider.CompareTag("Player");
-
-        // Cambiar dirección si no hay suelo o hay un obstáculo
-        // if (!haySuelo || hayObstaculo)
-        // {
-        //     CambiarDireccion();
-        // }
-
-        // Movimiento eliminado
-        // if (!jugadorEnganchado)
-        // {
-        //     rb.velocity = new Vector2(-velocidadMovimiento, rb.velocity.y);
-        // }
-        // else
-        // {
-        //     rb.velocity = Vector2.zero;
-        // }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -56,18 +32,27 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
-            if (playerController != null && !playerController.isInAir)
-            {
-                playerController.TakeDamage(danoAlJugador);
-                // Aplicar fuerza de expulsión al jugador
-                Vector2 direccionExpulsion = (collision.transform.position - transform.position).normalized;
-                playerController.ApplyExpulsionForce(direccionExpulsion, fuerzaExpulsion);
-            }
-            else
-            {
-              
-                Destroy(gameObject);
-            }
+            // Calculate Angle Between the collision point and the player
+            Vector2 enemyPosition = new Vector2(transform.position.x, transform.position.y);
+            Vector3 dir = enemyPosition - collision.contacts[0].point;
+            // We then get the opposite (-Vector3) and normalize it
+            dir = -dir.normalized;
+            // And finally we add force in the direction of dir and multiply it by force. 
+            // This will push back the player
+            playerController.GetComponent<Rigidbody2D>().AddForce(dir * 5000);
+            Destroy(gameObject);
+            //PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
+            //if (playerController != null && !playerController.isInAir)
+            //{
+            //    playerController.TakeDamage(danoAlJugador);
+            //    // Aplicar fuerza de expulsión al jugador
+            //    Vector2 direccionExpulsion = (collision.transform.position - transform.position).normalized;
+            //    playerController.ApplyExpulsionForce(direccionExpulsion, fuerzaExpulsion);
+            //}
+            //else
+            //{
+
+            //}
         }
     }
 

@@ -30,11 +30,29 @@ public class PlayerController : MonoBehaviour
 
         if (moveInputX < 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            if (grapplinHook.IsHookActivated())
+            {
+                grapplinHook.SetPlayerInMovement(true);
+                transform.localScale = new Vector3(1, 1, 1);
+
+            }
+            else
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
         }
         else if (moveInputX > 0)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            if (grapplinHook.IsHookActivated())
+            {
+                grapplinHook.SetPlayerInMovement(true);
+                transform.localScale = new Vector3(1, 1, 1);
+
+            }
+            else
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
@@ -51,6 +69,8 @@ public class PlayerController : MonoBehaviour
         {
             grapplinHook.DisableGrapple();
         }
+
+        //Debug.Log("Grapple state " +  grapplinHook.IsHookActivated());
     }
 
     void Jump()

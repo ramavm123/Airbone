@@ -16,6 +16,7 @@ public class GrapplinHook : MonoBehaviour
     private Vector3 grapplePoint;
     private DistanceJoint2D joint;
     private GameObject player;
+    private bool playerInMovement;
 
     void Start()
     {
@@ -28,10 +29,16 @@ public class GrapplinHook : MonoBehaviour
     //si la cuerda está activa, se actualiza la posicion iniciál cada frame
     private void Update()
     {
-        if (rope.enabled)
+        if (rope.enabled || !playerInMovement)
         {
             rope.SetPosition(0, grappleStart.position);
+
+            //Invoke("RetractRope", 100f * Time.deltaTime);
         }
+    }
+
+    private void RetractRope()
+    {
     }
 
     // dibuja una linea hacia el mouse que se utilizará en el raycast
@@ -52,7 +59,7 @@ public class GrapplinHook : MonoBehaviour
         );
 
 
-        print(target - (Vector2)transform.position);
+        //print(target - (Vector2)transform.position);
 
         if (hit.collider != null)
         {
@@ -80,4 +87,15 @@ public class GrapplinHook : MonoBehaviour
         rope.enabled = false;
         GrappleState.Invoke(false);
     }
+
+    public bool IsHookActivated()
+    {
+        return rope.enabled;
+    }
+
+    public void SetPlayerInMovement(bool playerInMovement)
+    {
+        this.playerInMovement = playerInMovement;
+    }
+
 }
