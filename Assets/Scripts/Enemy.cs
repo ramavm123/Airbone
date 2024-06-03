@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
             dir = -dir.normalized;
             // And finally we add force in the direction of dir and multiply it by force. 
             // This will push back the player
-            playerController.GetComponent<Rigidbody2D>().AddForce(dir * 5000);
+            playerController.GetComponent<Rigidbody2D>().AddForce(dir * 2500);
             Destroy(gameObject);
             //PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
             //if (playerController != null && !playerController.isInAir)

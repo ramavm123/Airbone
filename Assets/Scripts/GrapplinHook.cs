@@ -53,7 +53,7 @@ public class GrapplinHook : MonoBehaviour
         
         RaycastHit2D hit = Physics2D.Raycast(
             origin: (Vector2)grappleStart.position,
-            direction: (target - (Vector2)transform.position).normalized,
+            direction: (target - (Vector2)grappleStart.position).normalized,
             distance: Mathf.Infinity,
             layerMask: grappleLayer
         );
