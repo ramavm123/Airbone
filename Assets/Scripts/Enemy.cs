@@ -5,7 +5,7 @@ public class Enemy : MonoBehaviour
     public float velocidadMovimiento = 5f; // Esta variable ya no se usará.
     public float fuerzaGrappling = 10f;
     
-    public int danoAlJugador = 10;
+    
     public float distanciaSuelo = 0.2f;
     public float distanciaObstaculo = 0.5f;
     public LayerMask groundLayer;
@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        // Movimiento eliminado: el enemigo permanece estático
+        
         rb.velocity = Vector2.zero;  // Asegurar que el enemigo no se mueva
 
     }
@@ -42,16 +42,7 @@ public class Enemy : MonoBehaviour
             // This will push back the player
             playerController.GetComponent<Rigidbody2D>().AddForce(dir * expulsionForce);
             Destroy(gameObject);
-            //PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
-            //if (playerController != null && !playerController.isInAir)
-            //{
-            //    playerController.TakeDamage(danoAlJugador);
-            //    // Aplicar fuerza de expulsión al jugador
-            //    Vector2 direccionExpulsion = (collision.transform.position - transform.position).normalized;
-            //    playerController.ApplyExpulsionForce(direccionExpulsion, fuerzaExpulsion);
-            //}
-            //else
-            //{
+
 
             //}
         }
