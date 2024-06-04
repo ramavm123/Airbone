@@ -4,29 +4,33 @@ using UnityEngine.Events;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
+    public float maxSpeed = 10f;
     public float jumpForce = 10f;
-    public bool isInAir = false; // Variable para rastrear si el jugador está en el aire
+    public bool isInAir = false;
 
     public UnityEvent<bool> GroundState;
     public UnityEvent Jumped;
 
     private Rigidbody2D rb;
     private bool isGrounded;
-    private GrapplinHook grapplinHook; // Referencia al script del gancho
-
-    
+    private GrapplinHook grapplinHook;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        grapplinHook = GetComponent<GrapplinHook>(); // Add this line to get a reference to the GrapplinHook component
+        rb.freezeRotation = true; // Evita que el personaje rote debido a físicas
+        grapplinHook = GetComponent<GrapplinHook>();
     }
 
     void Update()
     {
         float moveInputX = Input.GetAxis("Horizontal");
-        Vector2 moveVelocity = new Vector2(moveInputX * moveSpeed, rb.velocity.y);
-        rb.velocity = moveVelocity;
+
+        if (Mathf.Abs(rb.velocity.x) < maxSpeed)
+        {
+            Vector2 moveForce = new Vector2(moveInputX * moveSpeed, 0);
+            rb.AddForce(moveForce);
+        }
 
         if (moveInputX < 0)
         {
@@ -34,7 +38,6 @@ public class PlayerController : MonoBehaviour
             {
                 grapplinHook.SetPlayerInMovement(true);
                 transform.localScale = new Vector3(1, 1, 1);
-
             }
             else
             {
@@ -47,7 +50,6 @@ public class PlayerController : MonoBehaviour
             {
                 grapplinHook.SetPlayerInMovement(true);
                 transform.localScale = new Vector3(1, 1, 1);
-
             }
             else
             {
@@ -69,15 +71,13 @@ public class PlayerController : MonoBehaviour
         {
             grapplinHook.DisableGrapple();
         }
-
-        //Debug.Log("Grapple state " +  grapplinHook.IsHookActivated());
     }
 
     void Jump()
     {
         Jumped.Invoke();
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-        isInAir = true; // El jugador está en el aire después de saltar
+        isInAir = true;
         GroundState.Invoke(false);
     }
 
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
-            isInAir = false; // El jugador ya no está en el aire después de tocar el suelo
+            isInAir = false;
             GroundState.Invoke(true);
         }
     }
@@ -96,24 +96,15 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
-            isInAir = true; // El jugador está en el aire después de dejar el suelo
+            isInAir = true;
             GroundState.Invoke(false);
         }
     }
 
-    public void TakeDamage(int damage)
-    {
-        // Aquí puedes implementar la lógica para el daño al jugador, si es necesario
-    }
 
-    public void ApplyExpulsionForce(Vector2 direction, float force)
-    {
-        rb.AddForce(direction * force, ForceMode2D.Impulse);
-    }
 
     public void EngageGrapple(Vector2 target)
     {
         grapplinHook.EngageGrapple(target);
     }
-
 }

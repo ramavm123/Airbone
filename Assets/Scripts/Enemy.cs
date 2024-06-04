@@ -4,11 +4,12 @@ public class Enemy : MonoBehaviour
 {
     public float velocidadMovimiento = 5f; // Esta variable ya no se usará.
     public float fuerzaGrappling = 10f;
-    public float fuerzaExpulsion = 5f;
+    
     public int danoAlJugador = 10;
     public float distanciaSuelo = 0.2f;
     public float distanciaObstaculo = 0.5f;
     public LayerMask groundLayer;
+    public float expulsionForce = 5000f;
 
     private Rigidbody2D rb;
     private bool jugadorEnganchado = false;
@@ -39,7 +40,7 @@ public class Enemy : MonoBehaviour
             dir = -dir.normalized;
             // And finally we add force in the direction of dir and multiply it by force. 
             // This will push back the player
-            playerController.GetComponent<Rigidbody2D>().AddForce(dir * 5000);
+            playerController.GetComponent<Rigidbody2D>().AddForce(dir * expulsionForce);
             Destroy(gameObject);
             //PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
             //if (playerController != null && !playerController.isInAir)
