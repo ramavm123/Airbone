@@ -19,7 +19,7 @@ public class PlayerFollower : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 
         Vector3 Objective = (Vector2)Player.transform.position + PlayerRB2D.velocity * playerVelocityOffset + CameraOffset;
