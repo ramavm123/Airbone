@@ -6,6 +6,7 @@
 	Feel free to use this in your own games, and I'd love to see anything you make!
  */
 
+using Cinemachine.Utility;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -503,22 +504,20 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void ApplyForceToPlayer(vector2 TargetSpeed,)
+    public void ApplyForceToPlayer(Vector2 TargetSpeed, float LerpForce)
     {
-        
-        targetSpeed = Mathf.Lerp(RB.velocity.x, targetSpeed, lerpAmount);
+
+        TargetSpeed = Vector2.Lerp(RB.velocity, TargetSpeed, LerpForce);
 
         #region Calculate AccelRate
-        float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? Data.runAccelAmount : Data.runDeccelAmount;
-        
+        //float accelRate = (Mathf.Abs(TargetSpeed.magnitude) > 0.01f) ? Data.runAccelAmount : Data.runDeccelAmount;
 
-        float speedDif = targetSpeed - RB.velocity.x;
-       
 
-        float movement = speedDif * accelRate;
+        Vector2 movement = (TargetSpeed - RB.velocity);//* accelRate;
 
         
-        RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+        RB.AddForce(movement, ForceMode2D.Force);
+        #endregion
     }
 
 }
