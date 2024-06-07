@@ -30,6 +30,20 @@ public class PlayerData : ScriptableObject
     [Space(5)]
     public bool doConserveMomentum = true;
 
+
+    [Space(20)]
+
+    [Header("Hook")]
+    public float reelingMaxSpeed; //Target speed we want the player to reach.
+    [Range(0, 1)]
+    public float reelingLerp; //Target speed we want the player to reach.
+    public float reelingAcceleration; //Target speed we want the player to reach.
+    public float DistanceStrength;
+    public float RotationForce;   //The speed at which our player moves when grappled
+    [Range(0, 1)]
+    public float RopeTension;   //The speed at which our player moves when grappled
+
+
     [Space(20)]
 
     [Header("Jump")]

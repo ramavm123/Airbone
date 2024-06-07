@@ -8,6 +8,7 @@
 
 using Cinemachine.Utility;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
@@ -56,6 +57,7 @@ public class PlayerController : MonoBehaviour
 
     //Set all of these up in the inspector
     [Header("Checks")]
+    [HideInInspector] public bool _playerIsHooked = false;
     [SerializeField] private Transform _groundCheckPoint;
     //Size of groundCheck depends on the size of your character generally you want them slightly small than width (for ground) and height (for the wall check)
     [SerializeField] private Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
@@ -63,6 +65,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform _frontWallCheckPoint;
     [SerializeField] private Transform _backWallCheckPoint;
     [SerializeField] private Vector2 _wallCheckSize = new Vector2(0.5f, 1f);
+    
 
     [Header("Layers & Tags")]
     [SerializeField] private LayerMask _groundLayer;
@@ -503,21 +506,32 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
-    public void ApplyForceToPlayer(Vector2 TargetSpeed, float LerpForce)
+    Vector2 PerpendicularForce;
+    public void GrapplePosition(Vector2 _position)
     {
+        //Grapple direct force
+        Vector2 positiondif = _position - (Vector2)transform.position;
+        Vector2 TargetSpeed = Data.reelingAcceleration * positiondif.normalized - RB.velocity;
+        TargetSpeed += (positiondif.sqrMagnitude * positiondif.normalized) * Data.DistanceStrength;
+        Vector2 movement = Vector2.Lerp(RB.velocity, TargetSpeed, Data.reelingLerp);
+        movement = Vector2.ClampMagnitude(movement, Data.reelingMaxSpeed);
+       
 
-        TargetSpeed = Vector2.Lerp(RB.velocity, TargetSpeed, LerpForce);
-
-        #region Calculate AccelRate
-        //float accelRate = (Mathf.Abs(TargetSpeed.magnitude) > 0.01f) ? Data.runAccelAmount : Data.runDeccelAmount;
-
-
-        Vector2 movement = (TargetSpeed - RB.velocity);//* accelRate;
-
-        
         RB.AddForce(movement, ForceMode2D.Force);
-        #endregion
+
+        //grapple rotation
+        Vector2 vPerpendicular = new Vector2(positiondif.y, -positiondif.x).normalized;
+        Vector2 vPerpendicularVelocity = (Vector2.Dot(RB.velocity, vPerpendicular)/vPerpendicular.sqrMagnitude) * vPerpendicular;
+        vPerpendicularVelocity = vPerpendicularVelocity.normalized * RB.velocity.magnitude;
+        //Vector2 vPerpendicularVelocity = RB.velocity.magnitude * vPerpendicular;
+        PerpendicularForce = Vector2.Lerp(RB.velocity, vPerpendicularVelocity, Data.RopeTension);
+        PerpendicularForce -= RB.velocity;
+        RB.AddForce(PerpendicularForce, ForceMode2D.Force);
+
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(transform.position, PerpendicularForce);
     }
 
 }

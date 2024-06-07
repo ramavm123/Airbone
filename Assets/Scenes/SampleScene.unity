@@ -11268,7 +11268,7 @@ MonoBehaviour:
   Player: {fileID: 2063078942}
   SpeedMultiplier: 0.04
   playerVelocityOffset: 0.01
-  CameraOffset: {x: 0, y: -5}
+  CameraOffset: {x: 0, y: -8}
 --- !u!4 &334717594
 Transform:
   m_ObjectHideFlags: 0
@@ -11391,7 +11391,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 7.163289
+  orthographic size: 12
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -11858,7 +11858,7 @@ MonoBehaviour:
   m_Follow: {fileID: 334717594}
   m_Lens:
     FieldOfView: 34
-    OrthographicSize: 7.163289
+    OrthographicSize: 12
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,6 +17,7 @@ public class GrapplinHook : MonoBehaviour
     private Vector3 grapplePoint;
     private DistanceJoint2D joint;
     private GameObject player;
+    private PlayerController playerController;
     private Rigidbody2D rb2D;
     private bool playerInMovement;
 
@@ -26,15 +28,18 @@ public class GrapplinHook : MonoBehaviour
         rope.enabled = false;
         player = GameObject.FindWithTag("Player");
         rb2D = player.GetComponent<Rigidbody2D>();
+        playerController = player.GetComponent<PlayerController>();
     }
 
     //si la cuerda está activa, se actualiza la posicion iniciál cada frame
     private void Update()
     {
-        if (rope.enabled || !playerInMovement)
+        
+        if (rope.enabled)
         {
             rope.SetPosition(0, grappleStart.position);
 
+            playerController.GrapplePosition(grapplePoint);
             //Invoke("RetractRope", 100f * Time.deltaTime);
         }
 
@@ -74,6 +79,7 @@ public class GrapplinHook : MonoBehaviour
             rope.enabled = true;
             rope.SetPosition(0, grappleStart.position);
             rope.SetPosition(1, grapplePoint);
+            playerController._playerIsHooked = true;
             /*
             joint.connectedAnchor = grapplePoint;
             joint.enabled = true;
@@ -96,6 +102,7 @@ public class GrapplinHook : MonoBehaviour
         joint.enabled = false;
         rope.enabled = false;
         GrappleState.Invoke(false);
+        playerController._playerIsHooked = false;
     }
 
     public bool IsHookActivated()
