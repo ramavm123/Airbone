@@ -135,10 +135,12 @@ public class PlayerController : MonoBehaviour
         if (!IsJumping)
         {
             //Ground Check
-            if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer) && !IsJumping) //checks if set box overlaps with ground
+            if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
             {
+
                 LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
                 if (!_canHoldWall) _canHoldWall = true;
+
             }
 
             //Right Wall Check
@@ -232,31 +234,31 @@ public class PlayerController : MonoBehaviour
         if (IsSliding)
         {
             SetGravityScale(0);
-            Debug.Log("IsSliding");
+            //Debug.Log("IsSliding");
         }
-        else if (RB.velocity.y < 0 && _isJumpCut)
+        else if (RB.velocity.y < 0 && _isJumpCut && _playerIsHooked == false)
         {
-            Debug.Log("Holding Down Button");
+            //Debug.Log("Holding Down Button");
             //Much higher gravity if holding down
             SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
             //Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
             RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFastFallSpeed));
         }
-        else if (_isJumpCut)
+        else if (RB.velocity.y >= 0 && _isJumpCut)
         {
-            Debug.Log("Jump button released");
+            //Debug.Log("Jump button released");
             //Higher gravity if jump button released
             SetGravityScale(Data.gravityScale * Data.jumpCutGravityMult);
             RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
         }
         else if ((IsJumping || IsWallJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
         {
-            Debug.Log("HangTime");
+            //Debug.Log("HangTime");
             SetGravityScale(Data.gravityScale * Data.jumpHangGravityMult);
         }
         else if (RB.velocity.y < 0)
         {
-            Debug.Log("falling");
+            //Debug.Log("falling");
             //Higher gravity if falling
             SetGravityScale(Data.gravityScale * Data.fallGravityMult);
             //Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
@@ -264,7 +266,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Debug.Log("going upwards");
+            //Debug.Log("going upwards");
             //Default gravity if standing on a platform or moving upwards
             SetGravityScale(Data.gravityScale);
         }
@@ -509,24 +511,27 @@ public class PlayerController : MonoBehaviour
     Vector2 PerpendicularForce;
     public void GrapplePosition(Vector2 _position)
     {
-        //Grapple direct force
-        Vector2 positiondif = _position - (Vector2)transform.position;
-        Vector2 TargetSpeed = Data.reelingAcceleration * positiondif.normalized - RB.velocity;
-        TargetSpeed += (positiondif.sqrMagnitude * positiondif.normalized) * Data.DistanceStrength;
-        Vector2 movement = Vector2.Lerp(RB.velocity, TargetSpeed, Data.reelingLerp);
-        movement = Vector2.ClampMagnitude(movement, Data.reelingMaxSpeed);
-       
-
-        RB.AddForce(movement, ForceMode2D.Force);
-
         //grapple rotation
+        Vector2 positiondif = _position - (Vector2)transform.position;
         Vector2 vPerpendicular = new Vector2(positiondif.y, -positiondif.x).normalized;
-        Vector2 vPerpendicularVelocity = (Vector2.Dot(RB.velocity, vPerpendicular)/vPerpendicular.sqrMagnitude) * vPerpendicular;
-        vPerpendicularVelocity = vPerpendicularVelocity.normalized * RB.velocity.magnitude;
+        Vector2 vPerpendicularVelocity = (Vector2.Dot(RB.velocity, vPerpendicular) / vPerpendicular.sqrMagnitude) * vPerpendicular;
+        //vPerpendicularVelocity = vPerpendicularVelocity.normalized * RB.velocity.magnitude;
         //Vector2 vPerpendicularVelocity = RB.velocity.magnitude * vPerpendicular;
         PerpendicularForce = Vector2.Lerp(RB.velocity, vPerpendicularVelocity, Data.RopeTension);
         PerpendicularForce -= RB.velocity;
         RB.AddForce(PerpendicularForce, ForceMode2D.Force);
+
+        //Grapple direct force
+        
+        Vector2 TargetSpeed = Data.reelingAcceleration * positiondif.normalized - RB.velocity;
+        TargetSpeed += ((positiondif.magnitude - Data.minDistanceRope) * positiondif.normalized) * Data.DistanceStrength;
+        Vector2 movement = Vector2.Lerp(RB.velocity, TargetSpeed, Data.reelingLerp);
+        movement = Vector2.ClampMagnitude(movement, Data.reelingMaxForce);
+       
+
+        RB.AddForce(movement, ForceMode2D.Force);
+
+        
 
     }
     private void OnDrawGizmos()

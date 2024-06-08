@@ -34,12 +34,12 @@ public class PlayerData : ScriptableObject
     [Space(20)]
 
     [Header("Hook")]
-    public float reelingMaxSpeed; //Target speed we want the player to reach.
+    public float reelingMaxForce; //Target speed we want the player to reach.
     [Range(0, 1)]
     public float reelingLerp; //Target speed we want the player to reach.
     public float reelingAcceleration; //Target speed we want the player to reach.
     public float DistanceStrength;
-    public float RotationForce;   //The speed at which our player moves when grappled
+    public float minDistanceRope;
     [Range(0, 1)]
     public float RopeTension;   //The speed at which our player moves when grappled
 
@@ -90,7 +90,6 @@ public class PlayerData : ScriptableObject
         //Calculate are run acceleration & deceleration forces using formula: amount = ((1 / Time.fixedDeltaTime) * acceleration) / runMaxSpeed
         runAccelAmount = (50 * runAcceleration) / runMaxSpeed;
         runDeccelAmount = (50 * runDecceleration) / runMaxSpeed;
-
         //Calculate jumpForce using the formula (initialJumpVelocity = gravity * timeToJumpApex)
         jumpForce = Mathf.Abs(gravityStrength) * jumpTimeToApex;
 

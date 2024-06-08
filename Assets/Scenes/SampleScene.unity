@@ -12050,7 +12050,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2630682388179346081, guid: 0bdde53d2b3d9e3408ef6c0d385f87de, type: 3}
       propertyPath: expulsionForce
-      value: 10
+      value: 2000
       objectReference: {fileID: 0}
     - target: {fileID: 5632172421778264048, guid: 0bdde53d2b3d9e3408ef6c0d385f87de, type: 3}
       propertyPath: m_LocalPosition.x
