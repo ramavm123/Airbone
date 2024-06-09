@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     //Components
     public Rigidbody2D RB { get; private set; }
     private GrapplinHook grapplinHook;
+    [HideInInspector]public Vector2 grapplePoint;
 
     //Variables control the various actions the player can perform at any time.
     //These are fields which can are public allowing for other sctipts to read them
@@ -65,6 +66,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform _frontWallCheckPoint;
     [SerializeField] private Transform _backWallCheckPoint;
     [SerializeField] private Vector2 _wallCheckSize = new Vector2(0.5f, 1f);
+
     
 
     [Header("Layers & Tags")]
@@ -270,7 +272,10 @@ public class PlayerController : MonoBehaviour
             //Default gravity if standing on a platform or moving upwards
             SetGravityScale(Data.gravityScale);
         }
-
+        if (_playerIsHooked)
+        {
+            GrapplePosition();
+        }
         #endregion
     }
 
@@ -509,10 +514,16 @@ public class PlayerController : MonoBehaviour
 
     }
     Vector2 PerpendicularForce;
-    public void GrapplePosition(Vector2 _position)
+
+    public void ApplyForceToPlayer(Vector2 OtherPosition, float Force)
+    {
+        ApplyPerpendicularForce(OtherPosition, Force);
+    }
+
+    public void GrapplePosition()
     {
         //grapple rotation
-        Vector2 positiondif = _position - (Vector2)transform.position;
+        Vector2 positiondif = grapplePoint - (Vector2)transform.position;
         Vector2 vPerpendicular = new Vector2(positiondif.y, -positiondif.x).normalized;
         Vector2 vPerpendicularVelocity = (Vector2.Dot(RB.velocity, vPerpendicular) / vPerpendicular.sqrMagnitude) * vPerpendicular;
         //vPerpendicularVelocity = vPerpendicularVelocity.normalized * RB.velocity.magnitude;
@@ -537,6 +548,28 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawRay(transform.position, PerpendicularForce);
+    }
+
+    private void ApplyPerpendicularForce(Vector2 _forcePoint, float _force)
+    {
+        Vector2 forcePositiondif = _forcePoint - (Vector2)transform.position;
+        forcePositiondif = -forcePositiondif.normalized;
+        if (_playerIsHooked)
+        {
+            
+            Vector2 forceVPerpendicular = new Vector2(forcePositiondif.y, -forcePositiondif.x).normalized;
+
+            //grapple rotation
+            Vector2 positiondif = grapplePoint - (Vector2)transform.position;
+            Vector2 vPerpendicular = new Vector2(positiondif.y, -positiondif.x).normalized;
+            Vector2 vPerpendicularVelocity = (Vector2.Dot(forceVPerpendicular, vPerpendicular) / vPerpendicular.sqrMagnitude) * vPerpendicular;
+            vPerpendicularVelocity = vPerpendicularVelocity.normalized * _force;
+            RB.velocity = vPerpendicularVelocity;
+        }
+        else
+        {
+            RB.velocity = forcePositiondif * _force;
+        }
     }
 
 }

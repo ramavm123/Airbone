@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
             dir = -dir.normalized;
             // And finally we add force in the direction of dir and multiply it by force. 
             // This will push back the player
-            playerController.GetComponent<Rigidbody2D>().AddForce(dir * expulsionForce);
+            playerController.GetComponent<PlayerController>().ApplyForceToPlayer(transform.position, expulsionForce);
             Destroy(gameObject);
 
 

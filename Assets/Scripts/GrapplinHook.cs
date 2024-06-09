@@ -14,7 +14,7 @@ public class GrapplinHook : MonoBehaviour
     //visual de la cabeza del grappling hook
     [SerializeField] private GameObject grappleHead;
 
-    private Vector3 grapplePoint;
+    private Vector2 grapplePoint;
     private DistanceJoint2D joint;
     private GameObject player;
     private PlayerController playerController;
@@ -39,7 +39,6 @@ public class GrapplinHook : MonoBehaviour
         {
             rope.SetPosition(0, grappleStart.position);
 
-            playerController.GrapplePosition(grapplePoint);
             //Invoke("RetractRope", 100f * Time.deltaTime);
         }
 
@@ -75,7 +74,7 @@ public class GrapplinHook : MonoBehaviour
         if (hit.collider != null)
         {
             grapplePoint = hit.point;
-            grapplePoint.z = 0;
+            playerController.grapplePoint = grapplePoint;
             rope.enabled = true;
             rope.SetPosition(0, grappleStart.position);
             rope.SetPosition(1, grapplePoint);
@@ -102,6 +101,7 @@ public class GrapplinHook : MonoBehaviour
         joint.enabled = false;
         rope.enabled = false;
         GrappleState.Invoke(false);
+        playerController.grapplePoint = Vector3.zero;
         playerController._playerIsHooked = false;
     }
 

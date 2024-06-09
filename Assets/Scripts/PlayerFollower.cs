@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerFollower : MonoBehaviour
 {
-    [SerializeField] private Transform Player;
+    public Transform Player;
     [SerializeField] private float SpeedMultiplier;
     [SerializeField] private float playerVelocityOffset;
     [SerializeField] private Vector2 CameraOffset;
@@ -13,9 +13,12 @@ public class PlayerFollower : MonoBehaviour
     private Rigidbody2D PlayerRB2D;
 
     // Start is called before the first frame update
-    void Start()
+    public void SetCamera(GameObject _player)
     {
+        Player = _player.transform;
         PlayerRB2D = Player.GetComponent<Rigidbody2D>();
+        transform.position = Player.transform.position + (Vector3)CameraOffset;
+
     }
 
     // Update is called once per frame

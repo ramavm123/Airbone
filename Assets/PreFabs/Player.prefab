@@ -165,16 +165,16 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 6b0a9d682100cba45899add3fa0669fd, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_Interpolate: 1
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &8977317840928869558
 MonoBehaviour:
@@ -188,15 +188,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd19651597cad634897b398fa0a4a485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: {fileID: 0}
+  Data: {fileID: 11400000, guid: 4dcf7de46b04a9c429a02a107cd68222, type: 2}
+  grapplePoint: {x: 0, y: 0}
+  _playerIsHooked: 0
   _groundCheckPoint: {fileID: 4217593495172101117}
-  _groundCheckSize: {x: 0.5, y: 0.03}
+  _groundCheckSize: {x: 0.6, y: 0.2}
   _frontWallCheckPoint: {fileID: 9183040396990231596}
   _backWallCheckPoint: {fileID: 1680533658640983678}
   _wallCheckSize: {x: 0.5, y: 1}
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
+  GroundState:
+    m_PersistentCalls:
+      m_Calls: []
+  Jumped:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &5019140419869344082
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -260,7 +268,7 @@ DistanceJoint2D:
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 1
-  m_Distance: 9.668593
+  m_Distance: 10.02014
   m_MaxDistanceOnly: 0
 --- !u!114 &3102320435600373597
 MonoBehaviour:
@@ -280,7 +288,7 @@ MonoBehaviour:
   grappleLength: 2
   grappleLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 72
   rope: {fileID: 6886389929937170735}
   grappleStart: {fileID: 3580475862168668072}
   grappleHead: {fileID: 0}
@@ -358,6 +366,7 @@ GameObject:
   - component: {fileID: 3132126346929040238}
   - component: {fileID: 1334614137835075775}
   - component: {fileID: 1231021892144779906}
+  - component: {fileID: 8803156597782735641}
   m_Layer: 0
   m_Name: Character Visual
   m_TagString: Untagged
@@ -454,6 +463,19 @@ Animator:
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1231021892144779906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6200383172755342273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 915703ec56d1d4d46b4dedc65031916b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+--- !u!114 &8803156597782735641
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
