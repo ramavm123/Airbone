@@ -28,6 +28,7 @@ public class PlayerVisual : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(RB2D.velocity.x);
         animator.SetFloat("WalkingSpeed", RB2D.velocity.x);
     }
 
@@ -41,6 +42,7 @@ public class PlayerVisual : MonoBehaviour
     }
     void jumpTrigger()
     {
+        Debug.Log("StartJump");
         animator.SetTrigger("StartJump");
     }
 }

@@ -139,10 +139,15 @@ public class PlayerController : MonoBehaviour
             //Ground Check
             if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
             {
-
+                GroundState.Invoke(true);
                 LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
                 if (!_canHoldWall) _canHoldWall = true;
 
+
+            }
+            else
+            {
+                GroundState.Invoke(false);
             }
 
             //Right Wall Check
@@ -497,22 +502,7 @@ public class PlayerController : MonoBehaviour
     {
         grapplinHook.EngageGrapple(target);
     }
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            GroundState.Invoke(true);
-        }
-    }
-
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            GroundState.Invoke(false);
-        }
-
-    }
+    
     Vector2 PerpendicularForce;
 
     public void ApplyForceToPlayer(Vector2 OtherPosition, float Force)

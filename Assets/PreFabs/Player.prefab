@@ -268,7 +268,7 @@ DistanceJoint2D:
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 1
-  m_Distance: 10.02014
+  m_Distance: 0.005
   m_MaxDistanceOnly: 0
 --- !u!114 &3102320435600373597
 MonoBehaviour:
@@ -366,7 +366,6 @@ GameObject:
   - component: {fileID: 3132126346929040238}
   - component: {fileID: 1334614137835075775}
   - component: {fileID: 1231021892144779906}
-  - component: {fileID: 8803156597782735641}
   m_Layer: 0
   m_Name: Character Visual
   m_TagString: Untagged
@@ -474,20 +473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915703ec56d1d4d46b4dedc65031916b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
---- !u!114 &8803156597782735641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6200383172755342273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 915703ec56d1d4d46b4dedc65031916b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 1334614137835075775}
 --- !u!1 &6544617672004363900
 GameObject:
   m_ObjectHideFlags: 0
