@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class CheckpointLogic : MonoBehaviour
 {
-    public int index = -1;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Player") GameObject.FindGameObjectWithTag("GM").GetComponent<Gamemanager>().CheckpointSet(index);
+        if(collision.gameObject.tag == "Player") GameObject.FindGameObjectWithTag("GM").GetComponent<Gamemanager>().CheckpointSet(GetComponent<AutoSetIndex>().index);
        
     }
 }

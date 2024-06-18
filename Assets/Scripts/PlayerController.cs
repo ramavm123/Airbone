@@ -93,7 +93,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-
         #region TIMERS
         LastOnGroundTime -= Time.deltaTime;
         LastOnWallTime -= Time.deltaTime;
@@ -143,7 +142,10 @@ public class PlayerController : MonoBehaviour
                 LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
                 if (!_canHoldWall) _canHoldWall = true;
 
-
+                if(RB.velocity.y <= -Data.fallDamageSpeed)
+                {
+                    GameObject.FindGameObjectWithTag("GM").GetComponent<Gamemanager>().OnPlayerDamage();
+                }
             }
             else
             {

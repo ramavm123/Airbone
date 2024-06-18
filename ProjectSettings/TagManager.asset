@@ -8,6 +8,8 @@ TagManager:
   - CameraPoint
   - GM
   - Checkpoint
+  - Exit
+  - Key
   layers:
   - Default
   - TransparentFX

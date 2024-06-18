@@ -9,7 +9,7 @@ public class DangerLogic : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            GameObject.FindGameObjectWithTag("GM").GetComponent<Gamemanager>().OnPlayerDeath();
+            GameObject.FindGameObjectWithTag("GM").GetComponent<Gamemanager>().OnPlayerDamage();
         }
     }
 }

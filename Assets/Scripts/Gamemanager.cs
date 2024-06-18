@@ -13,8 +13,13 @@ public class Gamemanager : MonoBehaviour
 
     [SerializeField] private GameObject PlayerPrefab;
     [SerializeField] private List<CheckpointLogic> CheckpointSpawn;
+    [SerializeField] private List<int> CollectedKeys;
 
     [SerializeField] private int savedCheckpointIndex = 0;
+    [SerializeField] private int playerMaxLives = 3;
+    private int playerLives = 0;
+    private int playerKeys = 0;
+    [HideInInspector]public int playerMaxKeys = 0;
     private GameObject cameraFollower;
 
     void Awake()
@@ -39,13 +44,23 @@ public class Gamemanager : MonoBehaviour
         GameObject player = null;
         for (int i = 0; i < CheckpointsGO.Length; ++i)
         {
-            if (CheckpointsGO[i].GetComponent<CheckpointLogic>().index == savedCheckpointIndex)
+            if (CheckpointsGO[i].GetComponent<AutoSetIndex>().index == savedCheckpointIndex)
             {
                 Debug.Log(savedCheckpointIndex);
                 player = Instantiate(PlayerPrefab, CheckpointsGO[i].transform.position, PlayerPrefab.transform.rotation);
             }
         }
-        
+
+        GameObject[] KeysGO = GameObject.FindGameObjectsWithTag("Key");
+        for (int i = 0; i < KeysGO.Length; ++i)
+        {
+            
+            if (CollectedKeys.Contains(KeysGO[i].GetComponent<AutoSetIndex>().index))
+            {
+                KeysGO[i].SetActive(false);
+            }
+        }
+        playerMaxKeys = KeysGO.Length - 1;
         cameraFollower = GameObject.FindGameObjectWithTag("CameraPoint");
         
         cameraFollower.GetComponent<PlayerFollower>().SetCamera(player);
@@ -64,22 +79,25 @@ public class Gamemanager : MonoBehaviour
         savedCheckpointIndex = index;
 
     }
-    public int OnAddCheckpoint(CheckpointLogic NewCheckpoint)
+
+
+    public void OnPlayerDamage()
     {
-        if (!CheckpointSpawn.Contains(NewCheckpoint))
+        playerLives -= 1;
+        if(playerLives == 0)
         {
-            CheckpointSpawn.Add(NewCheckpoint);
-            return CheckpointSpawn.Count;
+            playerLives = playerMaxLives;
+            SceneManager.LoadSceneAsync("LevelScene");
         }
-        return CheckpointSpawn.IndexOf(NewCheckpoint);
     }
-
-
-    public void OnPlayerDeath()
+    public void OnPlayerKeyCollection(int keyIndex)
     {
-        SceneManager.LoadSceneAsync("SampleScene");
+        if (!CollectedKeys.Contains(keyIndex))
+        {
+            CollectedKeys.Add(keyIndex);
+        }  
+        playerKeys += 1;
+        
+        GameObject.FindGameObjectWithTag("Exit").GetComponent<ExitCode>().OnOpen();
     }
-
-    
-
 }
