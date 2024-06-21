@@ -16,8 +16,8 @@ public class Gamemanager : MonoBehaviour
     [SerializeField] private List<int> CollectedKeys;
 
     [SerializeField] private int savedCheckpointIndex = 0;
-    [SerializeField] private int playerMaxLives = 3;
-    private int playerLives = 0;
+    //[SerializeField] private int playerMaxLives = 3;
+    //private int playerLives = 0;
     private int playerKeys = 0;
     [HideInInspector]public int playerMaxKeys = 0;
     private GameObject cameraFollower;
@@ -83,12 +83,8 @@ public class Gamemanager : MonoBehaviour
 
     public void OnPlayerDamage()
     {
-        playerLives -= 1;
-        if(playerLives == 0)
-        {
-            playerLives = playerMaxLives;
-            SceneManager.LoadSceneAsync("LevelScene");
-        }
+        SceneManager.LoadSceneAsync("LevelScene");
+        
     }
     public void OnPlayerKeyCollection(int keyIndex)
     {
@@ -97,7 +93,9 @@ public class Gamemanager : MonoBehaviour
             CollectedKeys.Add(keyIndex);
         }  
         playerKeys += 1;
-        
-        GameObject.FindGameObjectWithTag("Exit").GetComponent<ExitCode>().OnOpen();
+        if(playerKeys == playerMaxKeys)
+        {
+            GameObject.FindGameObjectWithTag("Exit").GetComponent<ExitCode>().OnOpen();
+        }
     }
 }
