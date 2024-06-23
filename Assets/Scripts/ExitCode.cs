@@ -6,17 +6,13 @@ public class ExitCode : MonoBehaviour
 {
     [SerializeField] Transform DoorCheck;
     
-    private Animator openAnimation;
 
-    private void Start()
-    {
-        openAnimation = GetComponentInChildren<Animator>();
-    }
 
     public void OnOpen()
     {
-        DoorCheck.gameObject.SetActive(true);
-        openAnimation.SetTrigger("OnDoorOpen");
+        DoorCheck.GetComponent<BoxCollider2D>().enabled = true;
+        GetComponentInChildren<Animator>().SetTrigger("OnDoorOpen");
         GetComponent<BoxCollider2D>().enabled = false;
+        Debug.Log("OnFinishedOpening");
     }
 }
