@@ -15,10 +15,10 @@ MonoBehaviour:
   gravityStrength: -12
   gravityScale: 0.48
   fallGravityMult: 1
-  maxFallSpeed: 18
+  maxFallSpeed: 24
   fastFallGravityMult: 2
-  maxFastFallSpeed: 18
-  fallDamageSpeed: 12
+  maxFastFallSpeed: 24
+  fallDamageSpeed: 14
   runMaxSpeed: 8
   runAcceleration: 0.64
   runAccelAmount: 4
@@ -27,12 +27,12 @@ MonoBehaviour:
   accelInAir: 0.8
   deccelInAir: 0.6
   doConserveMomentum: 1
-  reelingMaxForce: 10
-  reelingLerp: 0.251
+  reelingMaxForce: 12
+  reelingLerp: 0.257
   reelingAcceleration: 2
   DistanceStrength: 10
   minDistanceRope: 4
-  RopeTension: 0.382
+  RopeTension: 0.492
   jumpHeight: 6
   jumpTimeToApex: 1
   jumpForce: 12

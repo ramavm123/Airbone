@@ -132,6 +132,7 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
 
+
         #region COLLISION CHECKS
         if (!IsJumping)
         {

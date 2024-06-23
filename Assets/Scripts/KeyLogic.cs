@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class KeyLogic : MonoBehaviour
 {
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player") GameObject.FindGameObjectWithTag("GM").GetComponent<Gamemanager>().OnPlayerKeyCollection(GetComponent<AutoSetIndex>().index);
+        if (collision.gameObject.tag == "Player")
+        {
+            GameObject.FindGameObjectWithTag("GM").GetComponent<Gamemanager>().OnPlayerKeyCollection(GetComponent<AutoSetIndex>().index);
+            gameObject.SetActive(false);
+        }
     }
 }
