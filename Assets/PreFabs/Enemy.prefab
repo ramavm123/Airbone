@@ -49,13 +49,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocidadMovimiento: 5
   fuerzaGrappling: 10
-  fuerzaExpulsion: 5
-  danoAlJugador: 10
   distanciaSuelo: 0.2
   distanciaObstaculo: 0.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 0
+  expulsionForce: 10000
 --- !u!61 &7047679313397603359
 BoxCollider2D:
   m_ObjectHideFlags: 0

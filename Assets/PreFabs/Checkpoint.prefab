@@ -210,5 +210,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c066e66b4e1f24ea8b756542fc2ae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 2
+  index: -1
   componentToCheck: {fileID: 8909164036883685435}

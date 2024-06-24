@@ -28,11 +28,11 @@ MonoBehaviour:
   deccelInAir: 0.6
   doConserveMomentum: 1
   reelingMaxForce: 12
-  reelingLerp: 0.257
+  reelingLerp: 0.633
   reelingAcceleration: 2
-  DistanceStrength: 10
+  DistanceStrength: 14
   minDistanceRope: 4
-  RopeTension: 0.492
+  RopeTension: 0.76
   jumpHeight: 6
   jumpTimeToApex: 1
   jumpForce: 12

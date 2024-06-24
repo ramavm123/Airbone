@@ -73,6 +73,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
     #endregion
 
+    public bool CanMove = true;
+
     #region AnimationEvents
     public UnityEvent<bool> GroundState;
     public UnityEvent Jumped;
@@ -104,31 +106,35 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region INPUT HANDLER
-        _moveInput.x = Input.GetAxisRaw("Horizontal");
-        _moveInput.y = Input.GetAxisRaw("Vertical");
-
-
-        if (_moveInput.x != 0)
-            CheckDirectionToFace(_moveInput.x > 0);
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (CanMove)
         {
-            OnJumpInput();
-        }
+            _moveInput.x = Input.GetAxisRaw("Horizontal");
+            _moveInput.y = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            OnJumpUpInput();
-        }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            grapplinHook.EngageGrapple(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            grapplinHook.DisableGrapple();
+            if (_moveInput.x != 0)
+                CheckDirectionToFace(_moveInput.x > 0);
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                OnJumpInput();
+            }
+
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                OnJumpUpInput();
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                grapplinHook.EngageGrapple(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                grapplinHook.DisableGrapple();
+            }
         }
         #endregion
 

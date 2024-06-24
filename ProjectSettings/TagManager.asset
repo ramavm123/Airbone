@@ -10,6 +10,7 @@ TagManager:
   - Checkpoint
   - Exit
   - Key
+  - UIText
   layers:
   - Default
   - TransparentFX

@@ -4,20 +4,28 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
+using TMPro;
 
 public class Gamemanager : MonoBehaviour
 {
     // Start is called before the first frame update
     static Gamemanager instance;
 
+    
+
     [SerializeField] private GameObject PlayerPrefab;
+    [SerializeField] private GameObject WinScreenPrefab;
     [SerializeField] private List<CheckpointLogic> CheckpointSpawn;
     [SerializeField] private List<int> CollectedKeys;
+
+     private TextMeshProUGUI KeyCounter;
 
     [SerializeField] private int savedCheckpointIndex = 0;
     //[SerializeField] private int playerMaxLives = 3;
     //private int playerLives = 0;
     private int playerKeys = 0;
+    private int playerDeaths = 0;
     [HideInInspector] public int playerMaxKeys = 0;
     private GameObject cameraFollower;
 
@@ -63,7 +71,10 @@ public class Gamemanager : MonoBehaviour
                 KeysGO[i].SetActive(false);
             }
         }
-        playerMaxKeys = KeysGO.Length - 1;
+        playerMaxKeys = KeysGO.Length;
+        KeyCounter = GameObject.FindGameObjectWithTag("UIText").GetComponent<TextMeshProUGUI>();
+        KeyCounter.text = new string(playerKeys + "/" + "5");
+        Debug.Log("Keys Amount:" + playerMaxKeys);
         cameraFollower = GameObject.FindGameObjectWithTag("CameraPoint");
 
         cameraFollower.GetComponent<PlayerFollower>().SetCamera(player);
@@ -95,6 +106,7 @@ public class Gamemanager : MonoBehaviour
 
     public void OnPlayerDamage()
     {
+        playerDeaths += 1;
         SceneManager.LoadSceneAsync("LevelScene");
 
     }
@@ -105,14 +117,33 @@ public class Gamemanager : MonoBehaviour
             CollectedKeys.Add(keyIndex);
         }
         playerKeys += 1;
+        KeyCounter.text = new string(playerKeys+"/"+"5");
         if (playerKeys == playerMaxKeys)
         {
             GameObject.FindGameObjectWithTag("Exit").GetComponent<ExitCode>().OnOpen();
         }
     }
 
+    public void OnRespawn()
+    {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().CanMove = false;
+        StartCoroutine(Respawn());
+    }
+
     public void OnExit()
     {
-        Debug.LogError("OnExitCode");
+        Instantiate(WinScreenPrefab);
+        WinScreenPrefab.GetComponent<WinscreenManager>().SetUI(playerDeaths);
+    }
+
+
+    IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(1);
+        playerDeaths = 0;
+        CollectedKeys = new List<int> { 0 };
+        savedCheckpointIndex = 0;
+        playerKeys = 0;
+        SceneManager.LoadSceneAsync("LevelScene",LoadSceneMode.Single);
     }
 }
